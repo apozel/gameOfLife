@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { COLS, BLOCK_SIZE, ROWS } from '../../environments/environment';
+import { Life } from '../model/life';
+import { GameService } from '../services/game.service';
+import { InitGameService } from '../services/init-game.service';
 
 @Component({
   selector: 'app-board',
@@ -7,11 +11,9 @@ import { COLS, BLOCK_SIZE, ROWS } from '../../environments/environment';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
-  board: number[][];
-  constructor() {
-    this.board = Array(20)
-      .fill(0)
-      .map((x, i) => Array(20).fill(0));
+  grid: BehaviorSubject<Life[][]>;
+  constructor(private game: GameService) {
+    this.grid = this.game.getGame();
   }
 
   ngOnInit(): void {}

@@ -1,0 +1,22 @@
+#grid td {
+  width: 32px;
+  height: 32px;
+  background-color: rgb(255, 255, 255);
+  padding: 0px;
+  margin: 1px;
+  opacity: 0.8;
+}
+
+#grid {
+  background-color: #ddd;
+  padding: 5px;
+  margin: 0 auto;
+}
+
+#grid td.white {
+  background-color: rgb(255, 255, 255);
+}
+
+#grid td.black {
+  background-color: rgb(0, 0, 0);
+}

@@ -1,14 +1,5 @@
-
 <mat-card>
-
   <mat-card-content>
-   <table id="board">
-<tr *ngFor="let row of board; let i = index">
-
-    <td *ngFor="let col of row ; let j = index" (click)="onClick(i,j)"></td>
-
-</tr>
-</table>
+    <app-grid [grid]="grid"></app-grid>
   </mat-card-content>
-
 </mat-card>
