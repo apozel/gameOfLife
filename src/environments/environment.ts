@@ -8,7 +8,8 @@ export const environment = {
 export const COLS = 10;
 export const ROWS = 20;
 export const BLOCK_SIZE = 30;
-export const SIZE = 20;
+export const SIZE = 30;
+export const TIME = 500;
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

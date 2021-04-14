@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: life-nginx
+  labels:
+    app: life-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: life-nginx
+  template:
+    metadata:
+      labels:
+        app: life-nginx
+    spec:
+      containers:
+        - name: life
+          image: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html-volume
+          hostPath:
+            # Ensure the file directory is created.
+            path: /home/apozel/projet/paul/lifeGame/dist/frontblokus
+            type: Directory
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: life-nginx-service
+spec:
+  selector:
+    app: life-nginx
+  ports:
+    - protocol: TCP
+      port: 80
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: life-nginx-ingress
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: life-nginx-service
+              servicePort: 80

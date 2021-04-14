@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { ConstanteService } from '../constante.service';
 import { Life } from '../model/life';
 import { InitGameService } from './init-game.service';
 
@@ -10,10 +11,20 @@ export class GameService {
   private life: Life[][];
   private life$: BehaviorSubject<Life[][]>;
   private intervalKey: null | number = null;
+  private timeIntervalle: number = 500;
 
-  constructor(initGame: InitGameService) {
+  constructor(
+    private initGame: InitGameService,
+    private constantes: ConstanteService
+  ) {
     this.life = initGame.initGame();
     this.life$ = new BehaviorSubject(this.life);
+
+    this.constantes.getTime().subscribe((intervalle) => {
+      this.stopLife();
+      this.timeIntervalle = intervalle;
+      this.startLife();
+    });
   }
 
   setLife(life: Life[][]): void {
@@ -21,7 +32,11 @@ export class GameService {
     this.life = life;
   }
 
-  public clear(): void {}
+  public clear(): void {
+    this.stopLife();
+    this.life = this.initGame.initGame();
+    this.life$.next(this.life);
+  }
 
   public startLife(): void {
     if (!this.intervalKey) {
@@ -30,7 +45,7 @@ export class GameService {
           children.map((isSurvive, j) => this.nextLife(j, i, isSurvive))
         );
         this.life$.next(this.life);
-      }, 500);
+      }, this.timeIntervalle);
     }
   }
 
