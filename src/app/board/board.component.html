@@ -2,4 +2,8 @@
   <mat-card-content>
     <app-grid [grid]="grid"></app-grid>
   </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="onStart()">START</button>
+    <button mat-button (click)="onStop()">STOP</button>
+  </mat-card-actions>
 </mat-card>

@@ -18,7 +18,10 @@ export class BoardComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onClick(x: number, y: number) {
-    console.log('x : ' + x + 'y : ' + y);
+  onStart() {
+    this.game.startLife();
+  }
+  onStop() {
+    this.game.stopLife();
   }
 }
