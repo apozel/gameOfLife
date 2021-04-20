@@ -1,14 +1,9 @@
-<mat-card>
-  <app-grid [grid]="grid"></app-grid>
+<mat-card role="region">
+  <mat-card-header>
+    <mat-card-title>Board</mat-card-title>
+    <mat-card-subtitle>Life Incubator</mat-card-subtitle>
+  </mat-card-header>
   <mat-card-content>
-    <h3>timer : {{ value | async }}</h3>
-    <mat-slider class="example-margin" min="1" max="5" step="1" (change)="onChange($event)">
-    </mat-slider>
+    <app-grid [grid]="grid"></app-grid>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="accent" (click)="onToggleActive()">
-      {{ textButton | async }}
-    </button>
-    <button mat-raised-button (click)="onReset()">RESET</button>
-  </mat-card-actions>
 </mat-card>

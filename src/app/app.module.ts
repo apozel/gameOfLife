@@ -7,15 +7,25 @@ import { BoardComponent } from './board/board.component';
 import { GridComponent } from './grid/grid.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
+import { GridListComponent } from './grid-list/grid-list.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { ControllerComponent } from './controller/controller.component';
 
 @NgModule({
-  declarations: [AppComponent, BoardComponent, GridComponent],
+  declarations: [
+    AppComponent,
+    BoardComponent,
+    GridComponent,
+    GridListComponent,
+    ControllerComponent,
+  ],
   imports: [
     BrowserModule,
     MatCardModule,
     DragDropModule,
     MatSliderModule,
     MatButtonModule,
+    MatGridListModule,
     //AppRoutingModule
   ],
   providers: [],

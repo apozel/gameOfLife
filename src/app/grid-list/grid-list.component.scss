@@ -1,0 +1,20 @@
+.mat-grid {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-grid-tile {
+  width: 100%;
+  height: 100%;
+}
+
+app-controller {
+  padding: 1%;
+  width: 100%;
+}
+
+app-board {
+  width: 100%;
+}
