@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ConstanteService } from '../constante.service';
+import { TIME } from 'src/environments/environment';
 import { Life } from '../model/life';
-import { InitGameService } from './init-game.service';
+import { BoardService } from './board.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,20 +11,11 @@ export class GameService {
   private life: Life[][];
   private life$: BehaviorSubject<Life[][]>;
   private intervalKey: null | number = null;
-  private timeIntervalle: number = 500;
+  private timer: number = TIME;
 
-  constructor(
-    private initGame: InitGameService,
-    private constantes: ConstanteService
-  ) {
-    this.life = initGame.initGame();
+  constructor(private boardService: BoardService) {
+    this.life = boardService.initGame();
     this.life$ = new BehaviorSubject(this.life);
-
-    this.constantes.getTime().subscribe((intervalle) => {
-      this.stopLife();
-      this.timeIntervalle = intervalle;
-      this.startLife();
-    });
   }
 
   setLife(life: Life[][]): void {
@@ -34,7 +25,7 @@ export class GameService {
 
   public clear(): void {
     this.stopLife();
-    this.life = this.initGame.initGame();
+    this.life = this.boardService.initGame();
     this.life$.next(this.life);
   }
 
@@ -45,7 +36,7 @@ export class GameService {
           children.map((isSurvive, j) => this.nextLife(j, i, isSurvive))
         );
         this.life$.next(this.life);
-      }, this.timeIntervalle);
+      }, this.timer);
     }
   }
 
@@ -80,5 +71,9 @@ export class GameService {
 
   getGame(): BehaviorSubject<Life[][]> {
     return this.life$;
+  }
+
+  setTimer(intervalle: number) {
+    this.timer = intervalle;
   }
 }

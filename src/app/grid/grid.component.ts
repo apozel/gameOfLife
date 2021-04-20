@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { COLS, BLOCK_SIZE, ROWS } from '../../environments/environment';
 import { Life } from '../model/life';
-import { GameService } from '../services/game.service';
+import { GameService } from '../services/engine.service';
 
 @Component({
   selector: 'app-grid',

@@ -1,11 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
 import { BehaviorSubject } from 'rxjs';
-import { COLS, BLOCK_SIZE, ROWS } from '../../environments/environment';
-import { ConstanteService } from '../constante.service';
 import { Life } from '../model/life';
-import { GameService } from '../services/game.service';
-import { InitGameService } from '../services/init-game.service';
+import { ControllerService } from '../services/controller.service';
+import { GameService } from '../services/engine.service';
 
 @Component({
   selector: 'app-board',
@@ -14,44 +12,37 @@ import { InitGameService } from '../services/init-game.service';
 })
 export class BoardComponent implements OnInit {
   grid: BehaviorSubject<Life[][]>;
-  value: string = '5';
-  running: boolean;
+  value: BehaviorSubject<number>;
+
   textButton: BehaviorSubject<string> = new BehaviorSubject('Stop');
-  constructor(private game: GameService, private constante: ConstanteService) {
+  constructor(
+    private game: GameService,
+    private controller: ControllerService
+  ) {
     this.grid = this.game.getGame();
-    this.running = true;
+    this.value = this.controller.getTime();
+    this.controller.getActive().forEach((state) => {
+      this.textButton.next(!state ? 'Start' : 'Stop');
+    });
   }
 
   ngOnInit(): void {}
 
-  onStart() {
-    this.game.startLife();
-    this.running = true;
-  }
-  onStop() {
-    this.game.stopLife();
-    this.running = false;
-  }
-  onChange(event: MatSliderChange) {
+  onChange(event: MatSliderChange): void {
     if (event.value) {
-      this.value = event.value.toString();
-      this.constante.setTime(event.value * 100);
+      this.controller.setTime(event.value);
     }
   }
 
-  onReset() {
-    this.game.clear();
+  onReset(): void {
+    this.controller.clear();
   }
 
-  onSpacePress() {
-    console.log('greeting');
+  onToggleActive(): void {
+    this.controller.ToggleActive();
+  }
 
-    if (this.running) {
-      this.onStop();
-    } else {
-      this.onStart();
-    }
-
-    this.textButton.next(this.running ? 'Start' : 'Stop');
+  onSpacePress(): void {
+    this.onToggleActive();
   }
 }
