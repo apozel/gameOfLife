@@ -1,9 +1,6 @@
 <table id="grid">
-  <tr *ngFor="let row of grid | async; let i = index">
-    <td
-      *ngFor="let col of row; let j = index"
-      [ngClass]="col == 0 ? 'white' : 'black'"
-      (click)="onClick(i, j)"
-    ></td>
+  <tr *ngFor="let row of grid | async; let i = index ; trackBy : trackByRowLife">
+    <td *ngFor="let col of row; let j = index; trackBy : trackByLife" [ngClass]="col == 0 ? 'white' : 'black'"
+      (click)="onClick(i, j)"></td>
   </tr>
 </table>

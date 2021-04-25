@@ -10,6 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { GridListComponent } from './grid-list/grid-list.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ControllerComponent } from './controller/controller.component';
+import { CanvasPlaygroundComponent } from './playground/canvas-playground/canvas-playground.component';
+import { AppRoutingModule } from './app-routing.module';
+import { APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -18,6 +21,7 @@ import { ControllerComponent } from './controller/controller.component';
     GridComponent,
     GridListComponent,
     ControllerComponent,
+    CanvasPlaygroundComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,9 +30,9 @@ import { ControllerComponent } from './controller/controller.component';
     MatSliderModule,
     MatButtonModule,
     MatGridListModule,
-    //AppRoutingModule
+    AppRoutingModule,
   ],
-  providers: [],
+  providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

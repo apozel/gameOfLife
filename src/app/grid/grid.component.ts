@@ -20,4 +20,12 @@ export class GridComponent implements OnInit {
   onClick(x: number, y: number) {
     this.game.changeCell(x, y);
   }
+
+  trackByRowLife(index: number, arrayLife: Life[]) {
+    return arrayLife;
+  }
+
+  trackByLife(index: number, life: Life): Life {
+    return life;
+  }
 }
