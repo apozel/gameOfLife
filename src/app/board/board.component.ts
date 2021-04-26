@@ -3,7 +3,7 @@ import { MatSliderChange } from '@angular/material/slider';
 import { BehaviorSubject } from 'rxjs';
 import { Life } from '../model/life';
 import { ControllerService } from '../services/controller.service';
-import { GameService } from '../services/engine.service';
+import { EngineService } from '../services/engine.service';
 
 @Component({
   selector: 'app-board',
@@ -14,7 +14,7 @@ export class BoardComponent implements OnInit {
   grid: BehaviorSubject<Life[][]>;
 
   constructor(
-    private game: GameService,
+    private game: EngineService,
     private controller: ControllerService
   ) {
     this.grid = this.game.getGame();

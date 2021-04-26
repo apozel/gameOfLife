@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
 import { BehaviorSubject } from 'rxjs';
 import { ControllerService } from '../services/controller.service';
-import { GameService } from '../services/engine.service';
+import { EngineService } from '../services/engine.service';
 
 @Component({
   selector: 'app-controller',
@@ -14,7 +14,7 @@ export class ControllerComponent implements OnInit {
 
   textButton: BehaviorSubject<string> = new BehaviorSubject('Stop');
   constructor(
-    private game: GameService,
+    private game: EngineService,
     private controller: ControllerService
   ) {
     this.value = this.controller.getTime();

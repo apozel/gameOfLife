@@ -6,7 +6,8 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { EngineService } from 'src/app/services/engine.service';
 
 @Component({
   selector: 'app-canvas-playground',
@@ -21,12 +22,17 @@ export class CanvasPlaygroundComponent
 
   private playgroundConfig: Config = new Config();
 
+  private cellStateSubscription!: Subscription;
+  /* todo: implements subcription to other service
+  private gameBoardConfigSubscription: Subscription;
+  private windowSizeSubscription: Subscription; */
+
   @ViewChild('playground')
   private canvasRef!: ElementRef;
   private canvas!: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D | null = null;
 
-  constructor() {}
+  constructor(private engine: EngineService) {}
 
   ngOnInit(): void {}
 
@@ -34,6 +40,43 @@ export class CanvasPlaygroundComponent
     this.initCanvas();
     this.fillSize();
     this.draw();
+
+    this.cellStateSubscription = this.gameOfLifeService
+      .getCellStateObservable()
+      .subscribe((cell: Coordinate<boolean | Generation<boolean>>) => {
+        if (
+          cell.x < this.playgroundConfig.columns + this.playgroundConfig.xScreenOffset &&
+          cell.y < this.playgroundConfig.rows + this.playgroundConfig.yScreenOffset
+        ) {
+          let alive: boolean;
+          let generation: number;
+          if (typeof cell.value === 'boolean') {
+            alive = cell.value;
+            generation = null;
+          } else {
+            alive = cell.value.value;
+            generation = cell.value.generation;
+          }
+          this.drawCell(
+            cell.x - this.playgroundConfig.xScreenOffset,
+            cell.y - this.playgroundConfig.yScreenOffset,
+            alive,
+            generation
+          );
+        }
+      });
+    /* todo: implement subscrption to config
+      this.gameBoardConfigSubscription = merge(
+       this.gbConfig.observe,
+       this.gbStyleConfig.observe
+     ).subscribe(() => {
+       this.canvasFillContainer();
+       this.drawWorld();
+     });
+
+     this.windowSizeSubscription = this.windowService
+       .sizeChanges()
+       .subscribe(() => this.onScreenResize()); */
   }
 
   ngOnDestroy(): void {
@@ -114,7 +157,15 @@ export class CanvasPlaygroundComponent
       throw new Error('undefined canvas context');
     }
   }
-
+  /*
+  private toggleCell(cell: { x: number; y: number }) {
+    this.gameOfLifeService.toggleCell(
+      cell.x + this.gbConfig.xScreenOffset,
+      cell.y + this.gbConfig.yScreenOffset
+    );
+    this.lastSelectedCell = cell;
+  }
+ */
   private getSelectedCell(position: {
     x: number;
     y: number;
@@ -181,5 +232,11 @@ class Config {
 
   get rows(): number {
     return this._rows;
+  }
+  public get xScreenOffset {
+    return this._xScreenOffset;
+  }
+  public get yScreenOffset {
+    return this._yScreenOffset;
   }
 }

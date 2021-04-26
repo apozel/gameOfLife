@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { COLS, BLOCK_SIZE, ROWS } from '../../environments/environment';
 import { Life } from '../model/life';
-import { GameService } from '../services/engine.service';
+import { EngineService } from '../services/engine.service';
 
 @Component({
   selector: 'app-grid',
@@ -13,7 +13,7 @@ import { GameService } from '../services/engine.service';
 export class GridComponent implements OnInit {
   @Input() grid!: Observable<Life[][]>;
 
-  constructor(private game: GameService) {}
+  constructor(private game: EngineService) {}
 
   ngOnInit(): void {}
 

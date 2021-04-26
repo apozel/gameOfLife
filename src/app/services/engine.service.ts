@@ -7,7 +7,7 @@ import { BoardService } from './board.service';
 @Injectable({
   providedIn: 'root',
 })
-export class GameService {
+export class EngineService {
   private life: Life[][];
   private life$: BehaviorSubject<Life[][]>;
   private intervalKey: null | number = null;

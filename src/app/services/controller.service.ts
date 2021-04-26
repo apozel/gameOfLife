@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { TIME } from 'src/environments/environment';
-import { GameService } from './engine.service';
+import { EngineService } from './engine.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class ControllerService {
     false
   );
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: EngineService) {
     this.subcription();
   }
 
